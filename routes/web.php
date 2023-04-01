@@ -1,5 +1,9 @@
 <?php
 
+use App\Solid\CsvExport;
+use App\Solid\JsonExport;
+use App\Solid\PdfExport;
+use App\Solid\SaleReports;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $salesReport = new SaleReports;
+    $exportCsv = new CsvExport;
+    $exportPdf = new PdfExport;
+    $exportJson = new JsonExport;
+    return $exportCsv->export(
+        $salesReport->between('1 jan 2023', '1 mar 2023')
+    );
 });
